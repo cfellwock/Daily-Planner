@@ -21,14 +21,12 @@ textarea {
   border-bottom: 10px solid black;
 }
 
-/* Hourly timeblock grid */
-/* .container {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: repeat(8, 1fr);
-  grid-column-gap: 0px;
-  grid-row-gap: 0px;
-  } */
+
+
+.past {
+  background: green;
+}
+
 
 
 .description {
