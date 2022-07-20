@@ -1,32 +1,48 @@
-// WHEN I open the planner, the current day is displayed at the top of the calendar
-let today = moment()
-    $("#currentDay").text("Today is " + today.format("dddd, MMMM Do YYYY, h:mm:ss a"));
-    // today.setInterval(update, 1000);
 
+$(document).ready(function () {
+    $("#currentDay").text(moment().format("MMMM Do YYYY, h:mm:ss a"));
+    $(".saveBtn").on("click", function () {
+        console.log(this);
+        var text = $(this).siblings(".description").val(); 
+        var time = $(this).parent().attr("id");
+        localStorage.setItem(time, text);
+    })
 
-// WHEN I view the time blocks for that day, each time block is color-coded to indicate whether it is in the past, present, or future
+    $("#hour8 .description").val(localStorage.getItem("hour8"));
+    $("#hour9 .description").val(localStorage.getItem("hour9"));
+    $("#hour10 .description").val(localStorage.getItem("hour10"));
+    $("#hour11 .description").val(localStorage.getItem("hour11"));
+    $("#hour12 .description").val(localStorage.getItem("hour12"));
+    $("#hour13 .description").val(localStorage.getItem("hour13"));
+    $("#hour14 .description").val(localStorage.getItem("hour14"));
+    $("#hour15 .description").val(localStorage.getItem("hour15"));
+    $("#hour16 .description").val(localStorage.getItem("hour16"));
+    $("#hour17 .description").val(localStorage.getItem("hour17"));
 
+    function hourTracker() {
+   
+        var currentHour = moment().hour();
 
-function timeKeeper() {
-let currentHour = moment().hour();
+        $(".time-block").each(function () {
+            var blockHour = parseInt($(this).attr("id").split("hour")[1]);
+            console.log( blockHour, currentHour)
 
-    let blockHour = [];
-    $('.row').each(function() {
-        if($(this).hasClass('time-block')) {
-            blockHour.push($(this).prop('id').split('hour')[1]);
-        }
-    });
-    console.log(blockHour)
-
-    if (currentHour < blockHour) {
-        $('.time-block').toggleClass("past")
-
+            if (blockHour < currentHour) {
+                $(this).addClass("past");
+                $(this).removeClass("future");
+                $(this).removeClass("present");
+            }
+            else if (blockHour === currentHour) {
+                $(this).removeClass("past");
+                $(this).addClass("present");
+                $(this).removeClass("future");
+            }
+            else {
+                $(this).removeClass("present");
+                $(this).removeClass("past");
+                $(this).addClass("future");
+            }
+        })
     }
-
-};
-
-// can i add a filler class into this to avoid writing 9 lines of code?
-
-// WHEN I click the save button for that time block, the text for that event is saved in local storage
-
-// WHEN I refresh the page, the saved events persist
+    hourTracker();
+})
